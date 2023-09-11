@@ -1,4 +1,5 @@
 ﻿using OpenAI.Interfaces;
+using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,9 @@ namespace TerraformGenerator.Business
             var completionResult = await openAIService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
             {
                 Messages = prompt.promptList.Select(p => ChatMessage.FromUser(p)).ToList(),
-                Model = "gpt-4"
+                Model = Models.Gpt_4,
+                Temperature = 0,
+                N = 1
             });
             if (completionResult.Successful)
             {

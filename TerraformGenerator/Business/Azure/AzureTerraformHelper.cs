@@ -35,6 +35,8 @@ namespace TerraformGenerator.Business.Azure
             if (!Initialized) return (Initialized, gptPrompt);
 
             // Create Prompt
+            gptPrompt.Add("You are a code generator, you will reply with brief to-the-point " +
+                "code easily parsable to split to different file with split indicator '~FN~filename' no styling");
             gptPrompt.Add("Create a terraform script using the latest Azure provider with the following resources: ");
             foreach (var curRes in ResourcesToCreate.OrderBy(r => r.Order))
             {
