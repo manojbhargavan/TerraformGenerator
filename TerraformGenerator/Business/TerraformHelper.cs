@@ -20,7 +20,7 @@ namespace TerraformGenerator.Business
             this.openAIService = openAIService;
         }
 
-        public async Task StartUserPrompting()
+        public async Task<string> StartUserPrompting(string runId)
         {
             // Take from user
             CloudProvider provider = CloudProvider.Azure;
@@ -35,9 +35,13 @@ namespace TerraformGenerator.Business
                     break;
             }
 
-            var prompt = terraformHelper.GenerateTerraformPrompt();
+            var prompt = terraformHelper.GenerateTerraformPrompt(runId);
             if (!prompt.promptGenerated)
                 Console.WriteLine("Nothing to do.. Please retry");
+            else
+                Console.WriteLine($"{Environment.NewLine}--Prompt--{Environment.NewLine}" +
+                    $"{string.Join(Environment.NewLine, prompt.promptList)}{Environment.NewLine}" +
+                    $"--Prompt--{Environment.NewLine}Please wait...{Environment.NewLine}");
 
             var completionResult = await openAIService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest
             {
@@ -48,9 +52,16 @@ namespace TerraformGenerator.Business
             });
             if (completionResult.Successful)
             {
-                Console.WriteLine(completionResult.Choices.First().Message.Content);
+                string result = completionResult.Choices.First().Message.Content;
+                Console.WriteLine($"--Response--\n{result}\n--Response--");
+                return result;
             }
-
+            else
+            {
+                Console.WriteLine($"Error: {completionResult.Error?.Message}");
+                return "";
+            }
+            
         }
     }
 }

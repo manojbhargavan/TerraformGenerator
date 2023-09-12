@@ -2,6 +2,6 @@
 {
     internal interface ITerraformHelper
     {
-        (bool promptGenerated, List<string> promptList) GenerateTerraformPrompt();
+        (bool promptGenerated, List<string> promptList) GenerateTerraformPrompt(string runId);
     }
 }
