@@ -25,7 +25,7 @@ namespace TerraformGenerator.Business
             // Take from user
             CloudProvider provider = CloudProvider.Azure;
 
-            ITerraformHelper terraformHelper = null;
+            ITerraformHelper terraformHelper;
 
             switch (provider)
             {

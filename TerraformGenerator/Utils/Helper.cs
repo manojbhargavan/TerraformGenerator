@@ -10,22 +10,23 @@ namespace TerraformGenerator.Utils
 {
     internal static class Helper
     {
-        public static string? GetUserInputString(this string inputPrompt, bool blankOk = false)
+        public static string? GetUserInputString(this string inputPrompt, bool mandatory = false)
         {
-            int tries = 0; string? userInput;
+            string? userInput;
             Console.Write($"Enter the {inputPrompt}: ");
             userInput = Console.ReadLine()!;
-            if (blankOk)
+            if (!mandatory)
             {
                 return inputPrompt;
             }
 
+            int tries = 0;
             while (string.IsNullOrEmpty(userInput))
             {
                 Console.WriteLine($"Enter the {inputPrompt}, please: ");
                 userInput = Console.ReadLine()!;
                 tries++;
-                if (tries == 5)
+                if (tries == 3)
                 {
                     Console.WriteLine("I give up...");
                     return null;

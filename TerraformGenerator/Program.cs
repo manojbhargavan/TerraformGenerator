@@ -16,9 +16,9 @@ namespace TerraformGenerator
             var service = new ServiceCollection();
             service.ConfigureServices();
 
+            // Start User Prompting
             var serviceProvider = service.BuildServiceProvider();
             serviceProvider.GetRequiredService<TerraformHelper>().StartUserPrompting().Wait();   
-            
         }
     }
 }

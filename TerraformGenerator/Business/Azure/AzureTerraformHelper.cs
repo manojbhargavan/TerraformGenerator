@@ -19,7 +19,7 @@ namespace TerraformGenerator.Business.Azure
 
         private void Initialize()
         {
-            var outputFolder = "Output Folder".GetUserInputString();
+            var outputFolder = "Output Folder".GetUserInputString(mandatory: true);
             if (string.IsNullOrWhiteSpace(outputFolder)) return;
 
             OutputFolder = outputFolder;
@@ -67,6 +67,7 @@ namespace TerraformGenerator.Business.Azure
             while (addMoreTags)
             {
                 var tag = "Enter tag name and value (name|value), press enter to skip".GetUserInputString();
+                Console.WriteLine($"Value: '{tag}'");
                 if (!string.IsNullOrWhiteSpace(tag))
                     tags.Add(tag);
                 else
