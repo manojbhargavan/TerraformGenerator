@@ -1,9 +1,10 @@
-﻿using System.Text;
-using TerraformGenerator.Utils;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Text;
+using TerraformGenerator.Lib.Utils;
 
-namespace TerraformGenerator.Business.Azure
+namespace TerraformGenerator.Lib.Providers.Azure
 {
-    internal class AzureTerraformHelper : ITerraformHelper
+    public class AzureTerraformHelper : ITerraformHelper
     {
         private IAzureInputProvider _azureInputProvider;
         public AzureTerraformHelper(IAzureInputProvider azureInputProvider)
@@ -57,11 +58,11 @@ namespace TerraformGenerator.Business.Azure
 
                 gptPrompt.Add("Generate response in three files provider,variables and main file");
 
-                
+
 
                 return (true, gptPrompt);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw;
             }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TerraformGenerator.Business
+namespace TerraformGenerator.Lib.Providers
 {
-    internal enum CloudProvider
+    public enum CloudProvider
     {
         Azure,
         AWS,

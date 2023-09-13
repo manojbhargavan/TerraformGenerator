@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Betalgo.OpenAI" Version="7.1.5" />
+		<PackageReference Include="Lorem.Universal.Net" Version="4.0.80" />
+	</ItemGroup>
+
+</Project>

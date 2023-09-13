@@ -1,4 +1,6 @@
+using TerraformGenerator.Lib.Providers.Azure;
 using TerraformGenerator.Utils;
+using TerraformGenerator.Lib.Utils;
 
 namespace TerraformGenerator.Business.Azure
 {

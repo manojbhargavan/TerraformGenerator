@@ -1,12 +1,10 @@
-﻿using LoremNET;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OpenAI.Extensions;
-using OpenAI.Managers;
-using System.Security;
-using System.Security.Authentication.ExtendedProtection;
-using TerraformGenerator.Business;
+using TerraformGenerator.Lib;
+using TerraformGenerator.Lib.Providers;
+using TerraformGenerator.Lib.Providers.Azure;
 using TerraformGenerator.Utils;
+using Helper = TerraformGenerator.Lib.Utils.Helper;
 
 namespace TerraformGenerator
 {
@@ -26,7 +24,24 @@ namespace TerraformGenerator
 
 
             string runId = Guid.NewGuid().ToString("N").Substring(0, 15);
-            var response = await serviceProvider.GetRequiredService<TerraformHelper>().StartUserPrompting(runId);
+
+            // Get From User
+            CloudProvider provider = CloudProvider.Azure;
+
+            switch (provider)
+            {
+                case CloudProvider.AWS:
+                    break;
+                case CloudProvider.GCP:
+                    break;
+                case CloudProvider.Azure:
+                default:
+                    ITerraformHelper terraformHelper = new AzureTerraformHelper(serviceProvider.GetRequiredService<IAzureInputProvider>());
+                    break;
+            }
+
+
+            var response = await serviceProvider.GetRequiredService<ChatCompletionHelper>().StartUserPrompting(runId);
 
             // Parse Response and Write to Files
             var outputFolder = "Output Folder".GetUserInputString();

@@ -1,43 +1,26 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using TerraformGenerator.Lib.Providers;
 using OpenAI.Interfaces;
-using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TerraformGenerator.Business.Azure;
+using OpenAI.ObjectModels;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace TerraformGenerator.Business
+namespace TerraformGenerator.Lib
 {
-    internal class TerraformHelper
+    public class ChatCompletionHelper
     {
         private readonly IOpenAIService openAIService;
-        private readonly IServiceProvider serviceProvider;
+        private readonly ITerraformHelper terraformHelper;
 
         public CloudProvider CloudProvider { get; private set; }
 
-        public TerraformHelper(IOpenAIService openAIService, IServiceProvider serviceProvider)
+        public ChatCompletionHelper(IServiceProvider serviceProvider)
         {
-            this.openAIService = openAIService;
-            this.serviceProvider = serviceProvider;
+            this.openAIService = serviceProvider.GetRequiredService<IOpenAIService>();
+            this.terraformHelper = serviceProvider.GetRequiredService<ITerraformHelper>();
         }
 
         public async Task<string> StartUserPrompting(string runId)
         {
-            // Take from user
-            CloudProvider provider = CloudProvider.Azure;
-
-            ITerraformHelper terraformHelper;
-
-            switch (provider)
-            {
-                case CloudProvider.Azure:
-                default:
-                    terraformHelper = new AzureTerraformHelper(serviceProvider.GetRequiredService<IAzureInputProvider>());
-                    break;
-            }
 
             var prompt = terraformHelper.GenerateTerraformPrompt(runId);
             if (!prompt.promptGenerated)
@@ -65,7 +48,7 @@ namespace TerraformGenerator.Business
                 Console.WriteLine($"Error: {completionResult.Error?.Message}");
                 return "";
             }
-            
+
         }
     }
 }

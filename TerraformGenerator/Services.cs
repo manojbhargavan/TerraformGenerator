@@ -1,13 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenAI.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TerraformGenerator.Business;
 using TerraformGenerator.Business.Azure;
+using TerraformGenerator.Lib;
+using TerraformGenerator.Lib.Providers.Azure;
 
 namespace TerraformGenerator
 {
@@ -46,9 +42,10 @@ namespace TerraformGenerator
 
             // Inject Input Providers
             // Azure
-            services.AddSingleton<IAzureInputProvider>(new AzureConsoleInputProvider());
-
-            services.AddSingleton<TerraformHelper>();
+            var iAzureInputProvider = new AzureConsoleInputProvider();
+            services.AddSingleton<IAzureInputProvider>(iAzureInputProvider);
+            services.AddSingleton<ITerraformHelper>(new AzureTerraformHelper(iAzureInputProvider));
+            services.AddSingleton<ChatCompletionHelper>();
         }
     }
 }
