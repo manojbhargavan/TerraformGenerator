@@ -30,7 +30,7 @@ namespace TerraformGenerator
 
             // Parse Response and Write to Files
             var outputFolder = "Output Folder".GetUserInputString();
-            if (string.IsNullOrWhiteSpace(outputFolder)) outputFolder = $"{config["Defaults:OutputFolder"]}{runId}";
+            if (string.IsNullOrWhiteSpace(outputFolder)) outputFolder = Path.Join(config["Defaults:OutputFolder"], runId);
             else outputFolder = Path.Join(outputFolder, runId);
 
             var filesGenerated = Helper.ParseResponseAndWrite(response, runId, outputFolder);

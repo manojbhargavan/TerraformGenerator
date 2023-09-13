@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TerraformGenerator.Business;
+using TerraformGenerator.Business.Azure;
 
 namespace TerraformGenerator
 {
@@ -42,6 +43,11 @@ namespace TerraformGenerator
             });
 
             // Inject TerraformHelper
+
+            // Inject Input Providers
+            // Azure
+            services.AddSingleton<IAzureInputProvider>(new AzureConsoleInputProvider());
+
             services.AddSingleton<TerraformHelper>();
         }
     }

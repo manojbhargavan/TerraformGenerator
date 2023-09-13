@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TerraformGenerator.Business.Azure
+﻿namespace TerraformGenerator.Business.Azure
 {
-    internal class AzureResourceDescriptor : IResourceDescriptor
+    public class AzureResourceDescriptor : IResourceDescriptor
     {
         public int Order { get; set; }
         public bool ResourceExists { get; set; }

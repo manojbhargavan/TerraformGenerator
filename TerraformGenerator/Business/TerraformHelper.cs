@@ -1,4 +1,5 @@
-﻿using OpenAI.Interfaces;
+﻿using Microsoft.Extensions.DependencyInjection;
+using OpenAI.Interfaces;
 using OpenAI.ObjectModels;
 using OpenAI.ObjectModels.RequestModels;
 using System;
@@ -13,11 +14,14 @@ namespace TerraformGenerator.Business
     internal class TerraformHelper
     {
         private readonly IOpenAIService openAIService;
+        private readonly IServiceProvider serviceProvider;
+
         public CloudProvider CloudProvider { get; private set; }
 
-        public TerraformHelper(IOpenAIService openAIService)
+        public TerraformHelper(IOpenAIService openAIService, IServiceProvider serviceProvider)
         {
             this.openAIService = openAIService;
+            this.serviceProvider = serviceProvider;
         }
 
         public async Task<string> StartUserPrompting(string runId)
@@ -31,7 +35,7 @@ namespace TerraformGenerator.Business
             {
                 case CloudProvider.Azure:
                 default:
-                    terraformHelper = new AzureTerraformHelper();
+                    terraformHelper = new AzureTerraformHelper(serviceProvider.GetRequiredService<IAzureInputProvider>());
                     break;
             }
 
